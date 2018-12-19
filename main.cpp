@@ -3,6 +3,7 @@
 #include <iostream>
 #include <math.h>
 
+#include "rectangle.h"
 
 // 按ESC键退出程序
 void processInput(GLFWwindow *window);
@@ -39,6 +40,12 @@ int main()
     // 設置窗體維度
     glViewport(0, 0, 800, 600);
 
+    /****************************************************************/
+    // 创建一个背景板, 长度为32, 宽度为24, 正好覆盖
+    Rectangle background = Rectangle(32, 24, 0.0f, 1.0f, 0.0f);
+    background.setposition(0, 0);
+
+    /****************************************************************/
 
     // 开始窗体绘制循环
     while(!glfwWindowShouldClose(window))
@@ -47,15 +54,20 @@ int main()
         processInput(window);  
 
         // 設置顏色
-        glClearColor(0.5f, 0.0f, 0.0f, 1.0f);
+        glClearColor(0.0f, 0.2f, 0.2f, 1.0f);
         // 清除顏色緩衝區, 並使用上面設置的顏色進行填充 
         glClear(GL_COLOR_BUFFER_BIT);
+
+        // 绘制背景板
+        background.draw();
 
         // 交換緩衝, 繪制屏幕
         glfwSwapBuffers(window);
         // 檢查觸發事件, 調整窗體狀態
         glfwPollEvents(); 
     }
+
+    background.clear();
 
     // 最後釋放資源
     glfwTerminate();

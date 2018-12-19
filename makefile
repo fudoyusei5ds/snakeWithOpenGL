@@ -17,5 +17,6 @@ CFLAGS	= $(LIBDIR) $(LIBS) $(LIBGL) $(LIBGLEW) $(LIBX)
 all: main
 
 main: 	main.cpp\
-		shader.h rect.fs rect.vs
+		shader.h rect.fs rect.vs\
+		rectangle.h
 	g++ main.cpp $(INC) $(CFLAGS) -o snake -std=c++11
