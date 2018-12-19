@@ -11,22 +11,24 @@
 class Rectangle
 {
 private:
-    float positionx, positiony;
     Shader shader;  // 着色器程序
     unsigned int VAO, VBO, EBO; //绑定的各种缓冲区
 
 public:
+
+    int positionx, positiony;
+
     Rectangle(int width, int height, float r, float g, float b):
         positionx(0),
         positiony(0),
         shader("./rect.vs", "./rect.fs")
     {
         // 默认已知窗口的大小为800*600, 不然还要获取, 太麻烦了.
-        // 以25px为一个单位长度. 
+        // 以20px为一个单位长度. 
         // 浮点数精度就不管了. 我看还行. 
         // 可能会产生一些偏差. 
-        float w = width* 0.0625f;
-        float h = height*0.0833f;
+        float w = width* 0.0500f;
+        float h = height*0.0666f;
 
         // 设置4个顶点的坐标
         float vert[] = {
@@ -78,8 +80,8 @@ public:
     void draw()
     {
         shader.use();
-        shader.setFloat("ourX",positionx);
-        shader.setFloat("ourY",positiony);
+        shader.setFloat("ourX",positionx*0.0500f - 1);
+        shader.setFloat("ourY",1 - positiony*0.0666f);
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     }
@@ -87,8 +89,8 @@ public:
     // 设置位置
     void setposition(int x, int y)
     {
-        positionx = x*0.0625 - 1;
-        positiony = y*0.0833 + 1;
+        positionx = x;
+        positiony = y;
     }
 
     void clear()
