@@ -8,11 +8,6 @@
 // 按ESC键退出程序
 void processInput(GLFWwindow *window);
 
-struct snakebody{
-    Rectangle snake;
-    
-};
-
 int main()
 {
     // 初始化
@@ -47,18 +42,10 @@ int main()
 
     /****************************************************************/
     // 创建一个背景板, 宽度为40, 高度为30, 正好覆盖
+    // 坐标系原点位于左上角
     // 误差在一个像素左右
     Rectangle background = Rectangle(40, 30, 0.3f, 0.5f, 0.2f);
     background.setposition(0, 0);
-
-    // Rectangle wall1 = Rectangle(1, 20, 0.5f, 0.5f, 0);
-    // wall1.setposition(1, 2);
-    // Rectangle wall2 = Rectangle(20, 1, 0.5f, 0.5f, 0);
-    // wall2.setposition(2, 1);
-    // Rectangle wall3 = Rectangle(1, 20, 0.5f, 0.5f, 0);
-    // wall3.setposition(22, 2);
-    // Rectangle wall4 = Rectangle(20, 1, 0.5f, 0.5f, 0);
-    // wall4.setposition(2, 22);
 
     // 绘制蛇
 
@@ -78,10 +65,6 @@ int main()
 
         // 绘制背景板
         background.draw();
-        // wall1.draw();
-        // wall2.draw();
-        // wall3.draw();
-        // wall4.draw();
 
         // 交換緩衝, 繪制屏幕
         glfwSwapBuffers(window);
