@@ -55,17 +55,28 @@ int main()
     wall3.setposition(27,3);
     wall4.setposition(3,27);
 
-    // 绘制蛇
+    // 蛇
     Snake snake1(12,13);
 
     /****************************************************************/
+    // 一些用来控制游戏的变量
+    // 小蛇的速度, 即多少帧移动一格, 越小移动越快
+    int speed;  
+    // 游戏的状态:
+    // 0. 游戏未开始
+    // 1. 游戏开始, 速度为1级
+    // 2. 游戏开始, 速度为2级
+    // 3. 游戏开始, 速度为3级
+    // -1. 游戏结束, 1号小蛇死了
+    // 真可怜, 没有胜利的方法
+    int gamestat;
 
+    /****************************************************************/
     // 开始窗体绘制循环
     while(!glfwWindowShouldClose(window))
     {
         // 接收輸入
         processInput(window);  
-
         // 設置顏色
         glClearColor(0.0f, 0.2f, 0.2f, 1.0f);
         // 清除顏色緩衝區, 並使用上面設置的顏色進行填充 
@@ -73,13 +84,15 @@ int main()
 
         // 绘制背景板
         background.draw();
-
-        // 绘制蛇
-        snake1.draw();
         wall1.draw();
         wall2.draw();
         wall3.draw();
         wall4.draw();
+        
+        // 然后是蛇的移动
+
+        // 绘制蛇
+        snake1.draw();
 
         // 交換緩衝, 繪制屏幕
         glfwSwapBuffers(window);
