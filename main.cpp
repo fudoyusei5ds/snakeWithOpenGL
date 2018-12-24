@@ -3,7 +3,7 @@
 #include <iostream>
 #include <math.h>
 
-#include "rectangle.h"
+#include "snake.h"
 
 // 按ESC键退出程序
 void processInput(GLFWwindow *window);
@@ -48,7 +48,7 @@ int main()
     background.setposition(0, 0);
 
     // 绘制蛇
-
+    Snake snake1(12,13);
 
     /****************************************************************/
 
