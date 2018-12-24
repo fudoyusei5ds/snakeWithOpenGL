@@ -46,6 +46,14 @@ int main()
     // 误差在一个像素左右
     Rectangle background = Rectangle(40, 30, 0.3f, 0.5f, 0.2f);
     background.setposition(0, 0);
+    Rectangle wall1(1,24,.2f,.8f,.3f);
+    Rectangle wall2(24,1,.2f,.8f,.3f);
+    Rectangle wall3(1,24,.2f,.8f,.3f);
+    Rectangle wall4(24,1,.2f,.8f,.3f);
+    wall1.setposition(2,3);
+    wall2.setposition(3,2);
+    wall3.setposition(27,3);
+    wall4.setposition(3,27);
 
     // 绘制蛇
     Snake snake1(12,13);
@@ -65,6 +73,13 @@ int main()
 
         // 绘制背景板
         background.draw();
+
+        // 绘制蛇
+        snake1.draw();
+        wall1.draw();
+        wall2.draw();
+        wall3.draw();
+        wall4.draw();
 
         // 交換緩衝, 繪制屏幕
         glfwSwapBuffers(window);

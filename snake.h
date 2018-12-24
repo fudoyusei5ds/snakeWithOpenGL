@@ -11,18 +11,13 @@ struct snakebody{
 class Snake
 {
 private:
-    // 蛇的脑袋(头指针)
-    struct snakebody *head;
     // 蛇的朝向,第一个元素为正右负左, 第二个元素为正下负上
     int toward[2];
-    
-    void draw(struct snakebody *body)
-    {
-        body->rect.setposition(body->positionx, body->positiony);
-        body->rect.draw();
-    }
 
 public:
+    // 蛇的脑袋(头指针)
+    struct snakebody *head;
+
     // 构造函数
     Snake(int x, int y):
         toward{0,1}
@@ -53,13 +48,64 @@ public:
     // 这么写是错的, 应该把移动和绘制分开来
     void move(int mode)
     {
-        
+        struct snakebody *iter;
+        if(mode==0)
+        {
+            // 如果没有吃到豆豆, 那可如何是好
+            struct snakebody *tail;
+            iter=head;
+            while(1)
+            {
+                if(iter->next->next==NULL)
+                {
+                    tail=iter->next;
+                    iter->next=NULL;
+                    break;
+                }
+                iter=iter->next;
+            }
+            tail->next=head->next;
+            tail->positionx=head->positionx;
+            tail->positiony=head->positiony;
+
+            head->next=tail;
+            head->positionx+=toward[0];
+            head->positiony+=toward[1];
+        }
+        else if(mode==1)
+        {
+            // 豆豆吃多了会长胖的
+            struct snakebody *body;
+            body=(struct snakebody *)malloc(sizeof *body);
+            body->positionx=head->positionx;
+            body->positiony=head->positiony;
+            body->next=head->next;
+            body->rect=Rectangle(1,1,0,1,0);
+            
+            head->next=body;
+            head->positionx+=toward[0];
+            head->positiony+=toward[1];
+        }
     }
 
     // 绘制
     void draw()
     {
-        
+        struct snakebody *iter;
+        for(iter=head; iter; iter=iter->next)
+        {
+            iter->rect.setposition(iter->positionx,iter->positiony);
+            iter->rect.draw();
+        }
+    }
+
+    // 吃豆豆
+    int eat(int foodx, int foody)
+    {
+        if(head->positionx+toward[0]==foodx && head->positiony+toward[1]==foody)
+            return 1;
+        else
+            return 0;
     }
 
     // 控制方向
