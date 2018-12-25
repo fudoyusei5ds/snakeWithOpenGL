@@ -2,11 +2,15 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <math.h>
+#include <time.h>
+#include <unistd.h>
 
 #include "snake.h"
 
 // 按ESC键退出程序
 void processInput(GLFWwindow *window);
+
+int processControl(GLFWwindow *window);
 
 int main()
 {
@@ -61,16 +65,25 @@ int main()
     /****************************************************************/
     // 一些用来控制游戏的变量
     // 小蛇的速度, 即多少帧移动一格, 越小移动越快
-    int speed;  
+    int speed=50;
+    int speedcount=0;  
     // 游戏的状态:
     // 0. 游戏未开始
     // 1. 游戏开始, 速度为1级
     // 2. 游戏开始, 速度为2级
     // 3. 游戏开始, 速度为3级
     // -1. 游戏结束, 1号小蛇死了
-    // 真可怜, 没有胜利的方法
+    // 真可怜, 没有活下来的方法
     int gamestat;
+    // 吃掉的豆豆数
+    int count;
 
+    // 小蛇1的方向
+    int toward1=2;
+
+    // 用于计时
+    clock_t currframe;
+    clock_t lastframe=clock();
     /****************************************************************/
     // 开始窗体绘制循环
     while(!glfwWindowShouldClose(window))
@@ -89,8 +102,18 @@ int main()
         wall3.draw();
         wall4.draw();
         
+        // 操控小蛇移动哦, 多次统计, 只有最后一次会生效
+        int control=processControl(window);
+        toward1=((control!=-1)?control:toward1);
+        
         // 然后是蛇的移动
-
+        if(speedcount==speed)
+        {
+            snake1.control(toward1);
+            snake1.move(0);
+            speedcount=0;
+        }
+        speedcount+=1;
         // 绘制蛇
         snake1.draw();
 
@@ -98,6 +121,12 @@ int main()
         glfwSwapBuffers(window);
         // 檢查觸發事件, 調整窗體狀態
         glfwPollEvents(); 
+
+        // 最后检查一次完整循环所耗费的时间
+        // 如果小于百分之一秒, 那么至少等待百分之一秒
+        currframe=clock();
+        if(currframe-lastframe<=10000)
+            usleep(10000-currframe+lastframe);
     }
 
     background.clear();
@@ -113,4 +142,17 @@ void processInput(GLFWwindow *window)
     // 按下esc, 發出窗體退出信號
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+}
+
+int processControl(GLFWwindow *window)
+{
+    if(glfwGetKey(window, GLFW_KEY_W)==GLFW_PRESS)
+        return 0;
+    if(glfwGetKey(window, GLFW_KEY_A)==GLFW_PRESS)
+        return 1;
+    if(glfwGetKey(window, GLFW_KEY_S)==GLFW_PRESS)
+        return 2;
+    if(glfwGetKey(window, GLFW_KEY_D)==GLFW_PRESS)
+        return 3;
+    return -1;
 }

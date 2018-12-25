@@ -145,6 +145,8 @@ public:
                     toward[0]=1;
                 }
                 break;
+            default:
+                break;
         }
     }
 
