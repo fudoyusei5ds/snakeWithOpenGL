@@ -13,10 +13,10 @@ class Snake
 private:
     // 蛇的朝向,第一个元素为正右负左, 第二个元素为正下负上
     int toward[2];
-
+    struct snakebody *head;
 public:
     // 蛇的脑袋(头指针)
-    struct snakebody *head;
+    
 
     // 构造函数
     Snake(int x, int y):
@@ -108,6 +108,18 @@ public:
             return 0;
     }
 
+    // 判断豆豆是不是掉到身上了
+    int isfoodonme(int foodx, int foody)
+    {
+        struct snakebody *iter;
+        for(iter=head;iter;iter=iter->next)
+        {
+            if(iter->positionx==foodx && iter->positiony==foody)
+                return 1;
+        }
+        return 0;
+    }
+
     // 控制方向
     void control(int wasd)
     {
@@ -151,5 +163,21 @@ public:
     }
 
     // 判断碰撞
-    // 之后再写
+    int colli()
+    {
+        // 撞墙上了
+        if(head->positionx<3 || head->positionx>26 ||
+            head->positiony<3 || head->positiony>26)
+        {
+            return 1;
+        }
+        struct snakebody *iter;
+        for(iter=head->next; iter; iter=iter->next)
+        {
+            if(iter->positionx==head->positionx &&
+                iter->positiony==head->positiony)
+                return 1;
+        }
+        return 0;
+    }
 };

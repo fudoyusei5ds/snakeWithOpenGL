@@ -6,6 +6,7 @@
 #include <unistd.h>
 
 #include "snake.h"
+#include "food.h"
 
 // 按ESC键退出程序
 void processInput(GLFWwindow *window);
@@ -61,6 +62,8 @@ int main()
 
     // 蛇
     Snake snake1(12,13);
+    // 豆豆
+    Food food=Food();
 
     /****************************************************************/
     // 一些用来控制游戏的变量
@@ -76,7 +79,7 @@ int main()
     // 真可怜, 没有活下来的方法
     int gamestat;
     // 吃掉的豆豆数
-    int count;
+    int grade;
 
     // 小蛇1的方向
     int toward1=2;
@@ -101,19 +104,43 @@ int main()
         wall2.draw();
         wall3.draw();
         wall4.draw();
+
+        // 画豆豆
+        food.draw();
         
         // 操控小蛇移动哦, 多次统计, 只有最后一次会生效
+        // 这里总觉得有些不对, 先这样吧
         int control=processControl(window);
         toward1=((control!=-1)?control:toward1);
         
         // 然后是蛇的移动
         if(speedcount==speed)
         {
+            // 控制蛇
             snake1.control(toward1);
-            snake1.move(0);
+            // 判断食物
+            if(snake1.eat(food.getx(),food.gety()))
+            {
+                // 吃豆豆后
+                snake1.move(1);
+                while(snake1.isfoodonme(food.getx(),food.gety()))
+                {
+                    // 豆豆到处跑
+                    food.randxy();
+                }
+            }
+            else
+            {
+                snake1.move(0);
+            }
+            // 判断碰撞, 还是交给它自己吧.
+            if(snake1.colli())
+                break;
+
             speedcount=0;
         }
         speedcount+=1;
+
         // 绘制蛇
         snake1.draw();
 
