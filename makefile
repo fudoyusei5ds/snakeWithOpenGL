@@ -20,3 +20,9 @@ main: 	main.cpp\
 		shader.h rect.fs rect.vs\
 		rectangle.h
 	g++ main.cpp $(INC) $(CFLAGS) -o snake -std=c++11
+
+test: test.cpp\
+		shader.h rect.fs rect.vs\
+		rect1.fs rect1.vs rect2.fs\
+		rectangle.h
+	g++ test.cpp $(INC) $(CFLAGS) -o main -std=c++11
