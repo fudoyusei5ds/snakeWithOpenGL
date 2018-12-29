@@ -42,10 +42,12 @@ int main()
     // 設置窗體維度
     glViewport(0, 0, 800, 600);
 
+    // 开启纹理混合模式
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
     /****************************************************************/
     Rectangle background(40,30,1,0,0);
-    Rectangle abcd(40,30,"./image/abcd_a.jpg","./image/abcd_b.jpg");
-
 
     /****************************************************************/
     // 开始窗体绘制循环
@@ -58,7 +60,6 @@ int main()
         // 清除顏色緩衝區, 並使用上面設置的顏色進行填充 
         glClear(GL_COLOR_BUFFER_BIT);
         background.draw();
-        abcd.draw();
 
         // 交換緩衝, 繪制屏幕
         glfwSwapBuffers(window);
@@ -66,7 +67,6 @@ int main()
         glfwPollEvents(); 
     }
     background.clear();
-    abcd.clear();
 
     // 最後釋放資源
     glfwTerminate();
