@@ -101,8 +101,8 @@ public:
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        // 使用图片数据来生成纹理, 注意只能是JPG格式的数据
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imgw, imgh, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        // 使用图片数据来生成纹理, 注意只能是PNG格式的数据
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imgw, imgh, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         // 自動生成多級漸遠紋理
         glGenerateMipmap(GL_TEXTURE_2D);
         // 釋放圖像數據
